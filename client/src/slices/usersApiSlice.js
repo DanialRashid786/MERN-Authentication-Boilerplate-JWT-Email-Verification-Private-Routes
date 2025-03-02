@@ -1,0 +1,48 @@
+import { apiSlice } from './apiSlice';
+const USERS_URL = `${import.meta.env.VITE_API_BASE_URL}/api/users`;
+
+export const userApiSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    login: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/auth`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    logout: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/logout`,
+        method: 'POST',
+      }),
+    }),
+    register: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    updateUser: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/profile`,
+        method: 'PUT',
+        body: data,
+      }),
+    }),
+    verifyToken: builder.query({  // ✅ Added verification endpoint
+      query: () => ({
+        url: `${USERS_URL}/verify-token`,
+        method: 'GET',
+      }),
+    }),
+  }),
+});
+
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useUpdateUserMutation,
+  useVerifyTokenQuery,  // ✅ Export verifyToken query
+} = userApiSlice;
